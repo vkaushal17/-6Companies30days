@@ -1,4 +1,7 @@
-javascript day 1
+############################################################################################################################################################################################
+                                                                              javascript day 1
+############################################################################################################################################################################################
+
 Write a function createHelloWorld. It should return a new function that always returns "Hello World".
 
 When, Where and How to use the arrow function syntax!!
@@ -32,3 +35,18 @@ var createHelloWorld = function() {
         return () => "Hello World";
 };
 TIme and Space : O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
