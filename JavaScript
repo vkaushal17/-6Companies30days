@@ -1,3 +1,28 @@
+
+
+############################################################################################################################################################################################
+                                                                              javascript 
+############################################################################################################################################################################################
+
+*******************************************************************************************************************************************************************************************************************************************
+
+*********************************************************************************************************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ############################################################################################################################################################################################
                                                                               javascript 1
 ############################################################################################################################################################################################
@@ -234,14 +259,180 @@ notToBe(val) accepts another value and returns true if the two values !== each o
 *********************************************************************************************************************************************************************************************************************
 
 
+Approach
+The problem requires the expect function to support making toBe and notToBe calls (e.g., expect(5).toBe(5); should return true, and expect(5).notToBe(5); should throw "Equal"). To do so, we should define the return of the expect function based on what kind of call we make. This can be done in the following format:
+
+return {
+    toBe: (parameters) => {
+        [doing some stuff]
+    },
+    notToBe: (parameters) => {
+        [doing some stuff]
+    }
+}
+The below solution follows this format, where toBe and notToBe both has an if else statement, such that if the throw condition is true, throw an error. Otherwise, return true.
+
+Code
+var expect = function(val) {
+    return {
+        toBe: (val2) => {
+            if (val !== val2) throw new Error("Not Equal");
+            else return true;
+        },
+        notToBe: (val2) => {
+            if (val === val2) throw new Error("Equal");
+            else return true;
+        }
+    }
+};
+
+/* For example, when expect(5).toBe(4) is called,
+   val is the expect parameter (so val equals 5),
+   val2 is the toBe parameter (so val2 equals 4).
+   Since val !== val2, aka 5 != 4, we throw error "Not Equal". */
+
+
+############################################################################################################################################################################################
+                                                                              javascript 4
+############################################################################################################################################################################################
+
+*******************************************************************************************************************************************************************************************************************************************
+. Apply Transform Over Each Element in Array
+Given an integer array arr and a mapping function fn, return a new array with a transformation applied to each element.
+
+The returned array should be created such that returnedArray[i] = fn(arr[i], i).
+
+Please solve it without the built-in Array.map method.
+
+ 
+*********************************************************************************************************************************************************************************************************************
+
+Why as a problem setter do you think the Array.map() was restricted to use??
+I can think of three reasons why the problem setter must have restricted us to use Array.map()..
+
+To apply alternatives to built-in Array.map() method to encourage developers to think creatively and come up with alternative solutions using loops, functions, or recursion.
+Using Array.map() may not always be the most efficient solution, especially for large arrays, and other techniques like loops or recursion may be more performant. So, it's good to know and be comfortable with different approaches to solve array manipulation problems.
+Finally, it could have gotten too easy with Array.map().. ;)
+1. Using a for loop with operational container:
+We can loop through each element of the input array and apply the map function to each element. We then store the transformed values in a new array.
+var map = function(arr, fn) {
+  const transformedArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    transformedArr[i] = fn(arr[i], i);
+  }
+  return transformedArr;
+};
+TC and SC: O(n)
+
+Using a for loop without any container a.k.a Inmemory transformations
+var map = function(arr, fn) {
+    for (let i = 0; i < arr.length; ++i) {
+        arr[i] = fn(arr[i], i);
+    }
+    return arr;
+};
+TC and SC : O(n) and O(1)
+
+This is a bad practice as it alters the given data and also It can result in unexpected problems where the programmer was not expecting that as a side-effect.
+Now think that you have got a data of array knwon as personsAge now they need to check if a person is 18+ or not and if yes they want to mark it as 1 if not then 0.
+So if we implement this method to that real world question we are gonna loose the most important data i.e. the persons age and instead of persons age now that column will have 1 and 0.
+Now say the app is scaled to many countries and one of the countires has +21 as adlut benchmark.
+Should the firm again ask for their age?
+Should the developers have used a different method then it would have been a smooth process.
+"THATS WHY NEVER MESS WITH PASSED DATA."
+#Note: The built-in Array.map() does not modify the original array.
+
+2. Using the forEach method:
+We can use the forEach method to iterate through each element of the input array and apply the map function to each element. We then store the transformed values in a new array.
+var map = function(arr, fn) {
+  const transformedArr = [];
+  arr.forEach((element, index) => {
+    transformedArr[index] = fn(element, index);
+  });
+  return transformedArr;
+};
+TC and SC: O(n)
+
+3. Using the reduce method:
+We can use the reduce method to iterate through each element of the input array and apply the map function to each element. We then accumulate the transformed values in a new array.
+var map = function(arr, fn) {
+  return arr.reduce((transformedArr, element, index) => {
+    transformedArr[index] = fn(element, index);
+    return transformedArr;
+  }, []);
+};
+TC and SC: O(n)
+
+4. Using the for...of loop:
+We can use the for...of loop to iterate through each element of the input array and apply the map function to each element. We then store the transformed values in a new array.
+var map = function(arr, fn) {
+  const transformedArr = [];
+  let index = 0;
+  for (const element of arr) {
+    transformedArr[index] = fn(element, index);
+    index++;
+  }
+  return transformedArr;
+};
+TC and SC: O(n)
 
 
 
 
+############################################################################################################################################################################################
+                                                                              javascript 5
+############################################################################################################################################################################################
+
+*******************************************************************************************************************************************************************************************************************************************
+Given an integer array arr and a filtering function fn, return a filtered array filteredArr.
+
+The fn function takes one or two arguments:
+
+arr[i] - number from the arr
+i - index of arr[i]
+filteredArr should only contain the elements from the arr for which the expression fn(arr[i], i) evaluates to a truthy value. A truthy value is a value where Boolean(value) returns true.
+
+Please solve it without the built-in Array.filter method.
+*********************************************************************************************************************************************************************************************************************
+
+Complexity
+Time complexity:O(n)
+
+Space complexity:O(n)
+
+Code
+/**
+ * @param {number[]} arr
+ * @param {Function} fn
+ * @return {number[]}
+ */
+var filter = function(arr, fn) 
+{
+    const newArr = [];
+    for (let i = 0; i < arr.length; ++i) 
+    {
+        if (fn(arr[i], i)) 
+        {
+            newArr.push(arr[i]);
+        }
+    }
+    return newArr;
+};
 
 
+############################################################################################################################################################################################
+                                                                              javascript 6
+############################################################################################################################################################################################
 
+*******************************************************************************************************************************************************************************************************************************************
+Given an integer array nums, a reducer function fn, and an initial value init, return a reduced array.
 
+A reduced array is created by applying the following operation: val = fn(init, nums[0]), val = fn(val, nums[1]), val = fn(val, nums[2]), ... until every element in the array has been processed. The final value of val is returned.
+
+If the length of the array is 0, it should return init.
+
+Please solve it without using the built-in Array.reduce method.
+*********************************************************************************************************************************************************************************************************************
 
 
 
